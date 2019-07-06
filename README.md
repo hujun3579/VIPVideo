@@ -1,4 +1,6 @@
-# 欢迎使用VIPVideo视频解析工具
+## 欢迎使用VIPVideo视频解析工具
+
+### 访问链接：<http://json.javatop.cn/>
 
 **运行环境PHP:point_left:**
 
