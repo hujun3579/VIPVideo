@@ -9,3 +9,6 @@
 **可自行修改index.php中接口地址，添加/修复新的播放接口:movie_camera:**
 
 **带一键自动领取支付宝红包:moneybag:功能**
+
+# <font color=#DC143C size=5>仅供自行娱乐学习测试使用，请勿用于商业，后果自负！</font>
+
