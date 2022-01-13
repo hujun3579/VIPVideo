@@ -1,180 +1,412 @@
 <?php
-session_start();
-error_reporting(E_ALL);
-date_default_timezone_set("PRC");
-header("Content-Type: text/html; charset=UTF-8");
-include "ini.php";
+	$type = $_GET['type'];//1播放视频，2查找视频，3关于本站
+	if(!isset($type)) $type=1;//默认1
+	if(!is_numeric($type)) $type=1;//非数字1
+	$jk = $_GET['jk'];
+	$url = $_GET['url'];
+	$searchcontent = $_GET['searchcontent'];
+	$searchurl = $_GET['searchurl'];
+	ini_set('user_agent','Mozilla/5.0 (Windows NT 6.1; rv:14.0) Gecko/20180110 Firefox/14.0.2');
 ?>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=100%, initial-scale=1"/>
-  <title>每日领取支付宝红包----VIP视频解析站</title>
- <link rel="shortcut icon" href="/htdocs/images/tx.png">
-  <meta name="keywords" content="<?php echo $ini['keywords']?>" />
-  <meta name="description" content="<?php echo $ini['description']?>" />
-  <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
-  <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-  <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <script src="public/js/jquery-1.7.2.min.js"></script>
-  <script type="text/javascript">eval(function(p,a,c,k,e,d){e=function(c){return(c<a?"":e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)d[e(c)]=k[c]||e(c);k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('b a(){0 6=1.2("9").4;0 5=1.2("3");0 3=1.2("3").c;0 8=5.e[3].4;0 7=1.2("f");7.d=8+6}',16,16,'var|document|getElementById|jk|value|jkurl|diz|cljurl|jkv|url|dihejk|function|selectedIndex|src|options|player'.split('|'),0,{}))</script>
-  <script type="text/javascript">var OriginTitile = document.title;
-      var titleTime;
-      document.addEventListener('visibilitychange',
-      function() {
-        if (document.hidden) {
-          document.title = 'φ(>ω<*) 这有好东西哦~ ' + OriginTitile;
-          clearTimeout(titleTime);
-        } else {
-          document.title = '( • ̀ω•́ )✧恭喜你发现了~ ' + OriginTitile;
-          titleTime = setTimeout(function() {
-            document.title = OriginTitile;
-          },
-          2000);
-        }
-      });</script>
-  </head>
-
-<!--
-                              _.._        ,------------.
-                           ,'      `.    ( 大哥进来玩啊 )
-                          /  __) __` \    `-,----------'
-                         (  (`-`(-')  ) _.-'
-                         /)  \  = /  (
-                        /'    |--' .  \
-                       (  ,---|  `-.)__`
-                        )(  `-.,--'   _`-.
-                       '/,'          (  草",
-                        (_       ,    `/,-' )
-                        `.__,  : `-'/  /`--'
-                          |     `--'  |
-                          `   `-._   /
-                           \        (
-                           /\ .      \.  又偷代码
-                          / |` \     ,-\
-                         /  \| .)   /   \
-                        ( ,'|\    ,'     :
-                        | \,`.`--"/       }  fuck your mother
-                        `,'    \  |,'     /
-                       / "-._   `-/       |
-                       "-.  "-.,' |       ;
-                      /      _/   ["---'"]
-                     :       /    |"-    '
-                     '            |     /
-                                  `     |
-////////////////////////////////////////////////////////////////////
-//                                                                //
-//               代码你也看了，不点领取免费红包好意思吗           //
-//               不点红包也行，反正系统已记录你的IP               //
-//               版权所有：http://vip.javatop.cn/                 //
-//                                                                //
-////////////////////////////////////////////////////////////////////
--->
-<body style="background: url(&quot;./images/bj.jpg&quot;);">
-  <div class="col-xs-12 col-sm-10 col-md-8 col-lg-8 center-block" style="float: none;">
-  <h1 class="text-muted" style="color:white" align="center"><strong><?php echo $ini['title']?></strong></h1>
-  <center>
-   <span style="color:white"><marquee behavior="scroll" scrollamount=4 > <strong>
-   公告：1.本站每日可免费领取支付宝红包，支持线下付款使用！！！ 2.本站永久免费使用，可以直接跳过广告免费观看爱奇艺、腾讯、优酷、乐视、搜狐、PPTV、芒果、华数等众多视频网站VIP视频电影；3.使用过程中若不能正常解析播放请自行在下方选择更换接口重新播放。
-   </strong>
-   </marquee>
-   </span>
-  </center>
-<!-- <form action="http://kan.sogou.com/search" target="_blank">
- <div align="center"> 
-  <table bgcolor="#87CEEB"> 
-   <tr>
-    <td> 
-     <div class="input-group" style="width: 100%;">
-      <input class="form-control input-lg" type="text" placeholder="全网视频搜索"name=keyword size=30">  
-	  <span class="input-group-addon input-lg" style="width: 80px;">
-	  <button id="bf" type="submit" value="">搜索</button>
-	  </span>
-     </div>
-
-    </td>
-   </tr> 
-  </table> 
- </div> 
-</form> -->
-
-<hr>
- <thead>
-	<tr>
-<!-- 		<a target="_blank" href="/vip/ff.html" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-up"></span>磁力链使用方法</a> -->
-	<a target="_blank" href="hongbao.html" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-up"></span>每天免费来领支付宝红包</a>
-  <a target="_blank" href="http://www.javatop.cn" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-up"></span>个人技术博客</a>
-<script language="javascript" type="text/javascript" src="//js.users.51.la/19376020.js"></script>
-<noscript><a href="//www.51.la/?19376020" target="_blank"><img alt="&#x6211;&#x8981;&#x5566;&#x514D;&#x8D39;&#x7EDF;&#x8BA1;" src="//img.users.51.la/19376020.asp" style="border:none" /></a></noscript>
-	</tr>
- </thead><br/>
-<span style="color:white">本网站使用方法：</span><br/>
-<span style="color:white">1.电脑端操作：进入各大视频网站，找到想要观看的VIP视频，然后复制链接（浏览器上的视频地址）；</span><br/>
-<span style="color:white">2.手机端操作：进入各大视频APP，找到想要观看的VIP视频，点击该视频页面下方分享按钮，选择复制链接地址；</span><br/>
-<span style="color:white">3.将复制的链接粘贴到本站播放地址，并点击开始解析；</span><br/>
-<span style="color:white">4.等待解析完成，即可免费观看VIP视频。</span>
- <table class="table table-bordered">
-  <tbody>
-	<div class="col-md-14 column">
-    <div class="panel panel-default">
-    <div id="kj" class="panel-body">
-    <iframe src="./public/vip_js/index.htm" id="player" width="100%" height="650px" allowtransparency="true" frameborder="0" scrolling="no"></iframe>
-    </div>
-    </div>
-    </div>
-    <td>
-    <table bgcolor="#87CEEB">
-    <div class="col-md-14 column">
-    <form method="get" >
-	<div class="col-md-5 column" style="margin-top: 2px;">
-    <div class="input-group" style="width: 100%;">
-	<span class="input-group-addon input-lg" style="width: 80px; ">接口</span>
-    <select class="form-control input-lg" id="jk">
-<!--   <option value="http://api.47ks.com/webcloud/?v="  style="color:red">1号通用接口👍</option> 
-  <option value="http://jiexi.071811.cc/jx2.php?url=" style="color:red">1号通用接口👍</option>
-  <option value="http://jqaaa.com/jx.php?url=" style="color:red">2号通用接口👍</option>
-  <option value="http://api.662820.com/xnflv/index.php?url=">5号通用接口</option> 
-	<option value="http://api.xfsub.com/index.php?url=">6号通用接口</option>	-->   
-  <option value="http://vip.jlsprh.com/?url=" selected=""	style="color:red">①号通用vip引擎系统【稳定通用】👍</option>
-  <option value="http://jx.598110.com/?url="	style="color:red">②号通用vip引擎系统【稳定通用】👍</option>
-	<option value="http://jx.618ge.com/?url=" >③号通用vip引擎系统【稳定通用】</option>
-  <option value="http://jx.drgxj.com/?url=" >④号通用vip引擎系统【超级稳定通用】</option>
-  <option value="http://jx.du2.cc/?url=" >⑤号通用vip引擎系统【稳定通用】</option> 
-<!--	<option value="http://jiexi.92fz.cn/player/vip.php?url=">7号通用接口</option>
-  		<option value="http://www.662820.com/xnflv/index.php?url=">8号通用接口</option>
-  		<option value="http://jx.vgoodapi.com/jx.php?url=">9号通用接口</option>
-			<option value="https://api.flvsp.com/?skin=47ks&amp;url=">10号通用接口</option>
-  		<option value="http://api.wlzhan.com/sudu/?url=">11号通用接口</option>
-  		<option value="http://api.baiyug.cn/vip/index.php?url=">12号通用接口</option>
-   		<option value="http://www.wmxz.wang/video.php?url=">3号通用接口</option>
-			<option value="https://apiv.ga/magnet/">万能磁力链接解析</option> -->
-	<option value="http:// ">更多接口待添加...</option></select>
-    </div>
-	</div>
-    <div class="col-md-5" style="margin-top: 2px;">
-    <div class="input-group" style="width: 100%;">
-    <input class="form-control input-lg" type="search" placeholder="输入需要会员的视频播放地址" id="url">
-    </div></div>
-    <div class="col-md-2" style="margin-top: 2px;">
-    <button id="bf" type="button" class="btn btn-success btn-lg btn-block" onclick="dihejk()">播放</button>
-    </div>
-    </div>
-    </form>
-    </div>
-	</table> 
-   </td> 
-    </tbody>
-    </table>
-<!--     <table class="table table-bordered">
- --><!-- 	<thead>
- --><!-- 	<div class="alert alert-success alert-dismissible" role="alert">
-  <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-  <strong>
-  <b title=""></b>
-		<a target="_blank" href="" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-thumbs-up"></span></a>
-  </strong></div> -->
-<!-- </thead>
- --></body>
+	<title>全能VIP视频在线解析</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--
+		http转https,但是针对解析应该不行
+		<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">-->
+	<meta name="keywords" content="优酷VIP解析，爱奇艺VIP解析，腾讯VIP解析，乐视VIP解析，芒果VIP解析">
+	<meta name="description" content="本站为广大网友提供优酷VIP解析，爱奇艺VIP解析，腾讯VIP解析，乐视VIP解析，芒果VIP解析等解析服务，让你省去购买视频VIP费用，欢迎大家收藏本站，并将它介绍给您的朋友！">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="icon" type="image/x-icon" href="./assets/favicon.png">
+	<link href="./css/NES.css" rel="stylesheet" />
+	<link href="./css/Press_Start_2P.css" rel="stylesheet" />
+	<link href="./css/ionicons.min.css" rel="stylesheet" />
+	<link href="./css/mfb.css" rel="stylesheet" />
+	<script src="./scripts/modernizr.touch.js"></script>
+	<script src="./scripts/jquery-3.3.1.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
+      <script src="http://libs.useso.com/js/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<!--<script src="script/share.js"></script>-->
+	<!--<link rel="stylesheet" href="css/slide_share.css">-->
+	<!--控制标题栏-->
+	<script type="text/javascript">
+		var OriginTitile = document.title;
+		var titleTime;
+		document.addEventListener('visibilitychange',
+		function() {
+			if (document.hidden) {
+			  document.title = 'φ(>ω<*) 你快回来，精彩继续~ ' + OriginTitile;
+			  clearTimeout(titleTime);
+			} else {
+			  document.title = '( • ̀ω•́ )✧ 终于等到你回来了~ ' + OriginTitile;
+			  titleTime = setTimeout(function() {
+				document.title = OriginTitile;
+			  },
+			  2000);
+			}
+		});
+	</script>
+	<style>
+		#menu li{
+			text-indent: 0;
+		}
+		#menu a:hover {
+			color: #FFFFFF;
+		}
+		.mfb-component--tl .mfb-component__list [data-mfb-label].left:after {
+			content: attr(data-mfb-label);
+			left: 70px; 
+		}
+		.mfb-component--tl .mfb-component__list [data-mfb-label].right:after {
+			content: attr(data-mfb-label);
+			right: 70px; 
+		}
+	</style>
+</head>
+<body ondragstart="return false">
+	<ul id="menu" class="mfb-component--tl  mfb-fountain " data-mfb-toggle="hover" style="position:fixed;left:300px;top:20px;">
+	  <li class="mfb-component__wrap">
+		<a href="#" class="mfb-component__button--main" style="cursor:move;">
+		  <i class="mfb-component__main-icon--resting ion-plus-round"></i>
+		  <i class="mfb-component__main-icon--active ion-close-round"></i>
+		</a>
+		<ul class="mfb-component__list">
+		  <li>
+			<a href="https://github.com/BigHeisenberg" data-mfb-label="在GitHub上关注我" class="mfb-component__button--child" target="_blank">
+			  <i class="mfb-component__child-icon ion-social-github"></i>
+			</a>
+		  </li>
+		  <li>
+			<a href="https://www.javatop.cn/" data-mfb-label="我的主页" class="mfb-component__button--child" target="_blank">
+			  <i class="mfb-component__child-icon ion-social-octocat"></i>
+			</a>
+		  </li>
+		</ul>
+	  </li>
+	</ul>
+	<header><h1><i class="snes-jp-logo brand"></i><span>&nbsp;vip.javatop.cn</span><span class="small">
+		<!--<a class="github-link" href="" target="_blank">
+      <p class="nes-balloon from-right">在GitHub上<br>&nbsp;&nbsp;关注我</p>
+      <i class="nes-octocat"></i>
+      		  <li>
+			<a href="javascript:scrollTo(0,0);" data-mfb-label="返回顶部" class="mfb-component__button--child">
+			  <i class="mfb-component__child-icon ion-social-twitter"></i>
+			</a>
+		  </li>
+    </a>-->
+	<section class="nes-container with-title">
+	  <h2 class="title">功能</h2>
+	  <div id="buttons">
+		<label><input type="radio" name="category" class="nes-radio" <?php if($type==1) echo "checked"; ?>><span><a href="./?type=1" class="nes-btn is-success">视频解析</a></span></label>
+		<label><input type="radio" name="category" class="nes-radio" <?php if($type==2) echo "checked"; ?>><span><a href="./?type=2" class="nes-btn is-primary">视频搜索</a></span></label>
+		<label><input type="radio" name="category" class="nes-radio" <?php if($type==3) echo "checked"; ?>><span><a href="./?type=3" class="nes-btn is-warning">关于本站</a></span></label>
+	  </div>
+	</section>
+	<section class="nes-container with-title" <?php if($type!=1) echo "style='display:none;'"; ?>>
+	  <h2 class="title">视频解析</h2>
+	  <div id="play-container">
+		<div class="nes-select">
+			<select required id="jk">
+			 <?php $Array ='[
+			 		{"name":"1号接口","url":"https://vip.jx4k.com/vip/?url="},
+					{"name":"2号接口","url":"https://jx.7cyd.com/?url="},
+					{"name":"3号接口","url":"https://vip.jx4k.com/vip/?url="},
+					{"name":"B站","url":"https://jx.yparse.com/index.php?url="}]';
+				$de_json = json_decode($Array,TRUE);
+				$count = count($de_json);
+				echo $count;
+				for($i = 0; $i < $count; $i++){
+				$name = $de_json[$i]['name'];
+				$tempurl = $de_json[$i]['url'];
+				echo "<option value='$tempurl' ";
+				if($jk == $tempurl) echo "selected='selected'";
+				echo ">$name</option>";
+			}
+			?>
+			</select>
+		</div>
+	    <input type="text" id="url" value="<?php echo $url; ?>" class="nes-input is-success" placeholder="输入播放地址">
+		<button type="button" class="nes-btn is-success" onclick="play()" id="play">立即播放</button>
+		<script>
+			function play(){
+				var jk = $('#jk').val();
+				var url = $('#url').val();
+				window.location.href = "./?type=1&jk=" + jk + "&url=" + url;
+			}
+		</script>
+	  </div>
+	  <div class="nes-container is-dark with-title">
+		  <p class="title">观影区域</p>
+		  <?php
+			if(!isset($jk) || !isset($url)){
+				echo "<img src='./image/player-logo.gif' style='width:100%;'>";
+			}
+			else{
+				echo '<iframe allowfullscreen="true" allowtransparency="true" scrolling="no" src="'.$jk.$url.'" width="100%" height="600px" frameborder="0"></iframe>';
+			}
+		  ?>
+	  </div>
+	</section>
+	<section class="nes-container with-title" <?php if($type!=2) echo "style='display:none;'"; ?>>
+	  <h2 class="title">视频查找</h2>
+	  <div id="search-container">
+	    <div class="nes-select">
+			<select required id="searchurl">
+			<?php $Array ='[
+				{"name":"乐视搜索","url":"http://so.le.com/s?wd="},
+				{"name":"优酷搜索","url":"http://www.soku.com/search_video/q_"},
+				{"name":"爱奇艺搜索","url":"http://so.iqiyi.com/so/q_"},
+				{"name":"腾讯搜索","url":"https://v.qq.com/x/search/?q="},
+				{"name":"芒果搜索","url":"https://so.mgtv.com/so/k-"}]';
+				$de_json = json_decode($Array,TRUE);
+				$count = count($de_json);
+				echo $count;
+				for($i = 0; $i < $count; $i++){
+					$name = $de_json[$i]['name'];
+					$tempurl = $de_json[$i]['url'];
+					echo "<option value='$tempurl' ";
+					if($searchurl == $tempurl) echo "selected='selected'";
+					echo ">$name</option>";
+				}
+			?>
+			</select>
+		</div>
+	    <input type="text" id="searchcontent" value="<?php echo $searchcontent; ?>" class="nes-input is-success" placeholder="输入视频名称">
+		<button type="button" class="nes-btn is-success" onclick="search()" id="search">查找视频</button>
+		<script>
+			function search(){
+				var searchurl = $('#searchurl').val();
+				var searchcontent = $('#searchcontent').val();
+				window.location.href = "./?type=2&searchurl=" + searchurl + "&searchcontent=" + searchcontent;
+				var ifm= document.getElementById("iframe"); 
+				ifm.height=document.documentElement.clientHeight;
+			}
+		</script>
+	  </div>
+	  <div class="nes-container is-rounded">
+		<?php
+			if(!isset($searchurl) || !isset($searchcontent)){
+				echo "<img src='./image/search-logo.gif' style='width:100%;'>";
+			}
+			else{
+				echo '<iframe id="iframe" allowfullscreen="true" allowtransparency="true" src="'.$searchurl.$searchcontent.'" width="100%" height="auto" frameborder="0"></iframe>';
+			}
+		?>
+		<script>
+			document.onkeydown = function(e){
+				if(!e){
+					e = window.event;
+				}
+				if((e.keyCode || e.which) == 13){
+					if(document.activeElement.id == "url"){
+						play();
+					}
+					else if(document.activeElement.id == "searchcontent"){
+						search();
+					}
+				}
+			}
+			function changeFrameHeight(){
+				var ifm= document.getElementById("iframe"); 
+				if(ifm != undefined) ifm.height=document.documentElement.clientHeight;
+			}
+			window.onresize=function(){  
+				 changeFrameHeight();  
+			}
+			window.onload=function(){  
+				 changeFrameHeight();  
+			} 
+		</script>  
+      </div>
+	</section>
+	<section class="nes-container with-title" <?php if($type!=3) echo "style='display:none;'"; ?>>
+	  <h2 class="title">关于本站</h2>
+	  <h3>更新日志</h3>
+	  <ul class="changelog">
+	    <li class="version">v1.0.2
+			<ul class="changes">
+				<li class="bugfix">精简中文字体体积，提高加载速度</li>
+			</ul>
+		</li>
+	    <li class="version">v1.0.1
+			<ul class="changes">
+				<li class="bugfix">添加视频搜索功能</li>
+			</ul>
+		</li>
+		<li class="version">v1.0.0
+			<ul class="changes">
+				<li class="bugfix">更新站点风格为NES风格，字体更新为像素风</li>
+			</ul>
+		</li>
+	  </ul>
+	  <h3><p>如果你想捐助我，可以扫描下方的二维码</p></h3>
+	  <div class="pay_lists">
+			<dl>
+				<dt><img src="./assets/alipay.jpg"></dt>
+				<dd>支付宝扫一扫</dd>
+			</dl>
+			<dl>
+				<dt><img src="./assets/wechatpay.jpg"></dt>
+				<dd>微信扫一扫</dd>
+			</dl>
+	  </div>
+	  <h3><p>支持下列视频网站VIP视频解析</p></h3>
+	  <div class="logos_lists">
+			<dl>
+				<dt><a target="_blank" href="http://www.le.com/"><img src="./image/letvlogo.png"></a></dt>
+				<dd>乐视TV视频</dd>
+			</dl>
+			<dl>
+				<dt><a target="_blank" href="http://v.qq.com/"><img src="./image/qqlogo.png" width="150" height="35"></a></dt>
+				<dd>腾讯视频</dd>
+			</dl>
+			<dl>
+				<dt><a target="_blank" href="http://www.iqiyi.com/"><img src="./image/iqiyi.png" width="110" height="35"></a></dt>
+				<dd>爱奇艺视频</dd>
+			</dl>
+			<dl>
+				<dt><a target="_blank" href="http://www.youku.com/"><img src="./image/youkulogo.png"></a></dt>
+				<dd>优酷视频</dd>
+			</dl>
+			<dl>
+				<dt><a target="_blank" href="http://www.tudou.com/"><img src="./image/tudoulogo.png"></a></dt>
+				<dd>土豆视频</dd>
+			</dl>
+			<dl>
+				<dt><a target="_blank" href="http://www.mgtv.com/"><img src="./image/hunantvlogo.png"></a></dt>
+				<dd>芒果TV视频</dd>
+			</dl>
+			<dl>
+				<dt><a target="_blank" href="http://tv.sohu.com/"><img src="./image/sohulogo.png"></a></dt>
+				<dd>搜狐视频</dd>
+			</dl>
+			<dl>
+				<dt><img src="image/ykcloud.png" width="110" height="35"></dt>
+				<dd>优酷云</dd>
+			</dl>
+			<dl>
+				<dt><a target="_blank" href="http://www.acfun.cn/"><img src="./image/acfun.png" width="110" height="35"></a></dt>
+				<dd>Ac弹幕网</dd>
+			</dl>
+			<dl>
+				<dt><a target="_blank" href="http://www.bilibili.com/"><img src="./image/bilibili.png" width="110" height="35"></a></dt>
+				<dd>哔哩哔哩</dd>
+			</dl>
+			<dl>
+				<dt><a target="_blank" href="http://www.fun.tv/"><img src="./image/fengxing.gif" width="110" height="35"></a></dt>
+				<dd>风行网</dd>
+			</dl>
+			<dl>
+				<dt><a target="_blank" href="http://www.wasu.cn/"><img src="./image/wasulogo.png"></a></dt>
+				<dd>WASU华数视频</dd>
+			</dl>
+			<dl>
+				<dt><a target="_blank" href="http://www.56.com/"><img src="./image/56logo.png"></a></dt>
+				<dd>56</dd>
+			</dl>
+			<dl>
+				<dt><a target="_blank" href="http://www.yinyuetai.com/"><img src="./image/yinyuetailogo.png"></a></dt>
+				<dd>音悦台MV</dd>
+			</dl>
+	  </div>
+	</section>
+	<footer class="footer">
+	  <div style="overflow:hidden;">
+		  <div style="float:left;width:10%;min-width:84px;"><i class="nes-ash"></i></div>
+		  <div style="float:left;width:calc(100% - 168px);max-width:80%"><p>Copyright © 2016-<?php echo Date("Y");?> | All Rights Reserved. | <a href="https://www.javatop.cn" target="_blank">@Heisenberg的主页</a><script language="javascript" type="text/javascript" src="//js.users.51.la/19376020.js"></script></p></div>
+		  <div style="float:right;width:10%;min-width:84px;"><i class="nes-ash mirrorRotateLevel"></i></div>
+	  </div>
+    </footer>
+</body>
+<script type="text/javascript">
+	//用小括号把函数包裹起来
+	(function(){
+		$('.mfb-component__button--child').addClass("right");
+		$('#menu').css('left', document.documentElement.clientWidth - 150);
+	})();
+	var menu = document.getElementById('menu'),
+		effect = 'mfb-zoomin',
+		pos = 'mfb-component--br';
+	function _toggleCode() {
+	  panel.classList.toggle('viewCode');
+	}
+	function switchEffect(e){
+	  effect = this.options[this.selectedIndex].value;
+	  renderMenu();
+	}
+	function switchPos(e){
+	  pos = this.options[this.selectedIndex].value;
+	  renderMenu();
+	}
+	
+	function renderMenu() {
+	  menu.style.display = 'none';
+	  // ?:-)
+	  setTimeout(function() {
+		menu.style.display = 'block';
+		menu.className = pos + effect;
+	  },1);
+	}
+	var iWidth = document.documentElement.clientWidth; 
+	var iHeight = document.documentElement.clientHeight; 
+	var moveX = 0; 
+	var moveY = 0; 
+	var moveTop = 0; 
+	var moveLeft = 0; 
+	var moveable = false; 
+	var docMouseMoveEvent = document.onmousemove;
+	var docMouseUpEvent = document.onmouseup;
+	menu.onmousedown = function() { 
+		var evt = getEvent(); 
+		moveable = true; 
+		moveX = evt.clientX; 
+		moveY = evt.clientY; 
+		moveTop = parseInt(menu.style.top); 
+		moveLeft = parseInt(menu.style.left); 
+		document.onmousemove = function() { 
+			if (moveable) { 
+				var evt = getEvent(); 
+				var x = moveLeft + evt.clientX - moveX;
+				var y = moveTop + evt.clientY - moveY; 
+				
+				if(x-menu.style.width/2<iWidth/2){
+					$('.mfb-component__button--child').removeClass("right");
+					$('.mfb-component__button--child').addClass("left");
+				}
+				else {
+					$('.mfb-component__button--child').removeClass("left");
+					$('.mfb-component__button--child').addClass("right");
+				}
+				
+				if ( x > 0 &&( x + menu.style.width < iWidth) && y > 0 && (y + menu.style.height < iHeight) ) { 
+					menu.style.left = x + "px"; 
+					menu.style.top = y + "px"; 
+				} 
+			} 
+		}; 
+		document.onmouseup = function () { 
+			if (moveable) {
+				document.onmousemove = docMouseMoveEvent;
+				document.onmouseup = docMouseUpEvent; 
+				moveable = false; 
+				moveX = 0; 
+				moveY = 0; 
+				moveTop = 0; 
+				moveLeft = 0; 
+			} 
+		}; 
+	} 
+	// 获得事件Event对象，用于兼容IE和FireFox 
+	function getEvent() { 
+		return window.event || arguments.callee.caller.arguments[0]; 
+	} 
+</script>
 </html>
-
